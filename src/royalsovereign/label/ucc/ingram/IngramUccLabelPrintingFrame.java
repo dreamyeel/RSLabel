@@ -134,6 +134,7 @@ public class IngramUccLabelPrintingFrame extends javax.swing.JFrame {
 
         jComboBox3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jComboBox3.addItem("Branch 10");
+        jComboBox3.addItem("Branch 20");
         jComboBox3.addItem("Branch 30");
         jComboBox3.addItem("Branch 40");
         jComboBox3.addItem("Branch 80");
@@ -312,6 +313,14 @@ public class IngramUccLabelPrintingFrame extends javax.swing.JFrame {
             shipToCity = "Mira Loma";
             shipToState = "CA";
             shipToZipcode = "91752";
+        }
+        else if(selection.compareTo("Branch 20")==0){
+            shipToName = "Ingram Micro Inc.";
+            shipToAddress1 = "1809 W. Frankford";
+            shipToAddress2 = "STE. 100";
+            shipToCity = "Carrollton";
+            shipToState = "TX";
+            shipToZipcode = "75007";
         }
         else if(selection.compareTo("Branch 30")==0){
             shipToName = "Ingram Micro Inc.";

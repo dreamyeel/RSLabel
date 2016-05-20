@@ -5,7 +5,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import royalsovereign.label.carton.mclane.McLaneCartonLabelGUI;
+import royalsovereign.label.carton.mclane.McLaneLabelGUI;
 import royalsovereign.label.carton.sams.SamsCartonLabelGUI;
 import royalsovereign.label.ucc.ingram.IngramUccLabelPrintingFrame;
 import royalsovereign.label.ucc.scholastic.ScholasticLabelPrintingFrame;
@@ -36,7 +36,7 @@ public class menuGUI extends javax.swing.JFrame implements ActionListener{
 		printSamsCartonLabel = new JButton("Click here to print Sams/Wal-mart carton label");
 		printIngramUccLabel = new JButton("Click here to print Ingram UCC label");
 		printScholasticUccLabel = new JButton("Click here to print Scholastic UCC Label");
-		printMcLaneCartonLabel = new JButton("Click here to print McLane carton label");
+		printMcLaneCartonLabel = new JButton("Click here to print McLane label");
 		
 		printSamsCartonLabel.addActionListener(this);
 		printIngramUccLabel.addActionListener(this);
@@ -95,10 +95,10 @@ public class menuGUI extends javax.swing.JFrame implements ActionListener{
 			//ingramUccLabelPanel = new IngramUccLabelGUI().createGUI();
 			//add(ingramUccLabelPanel);
 			//pack();
-		}else if(e.getActionCommand().equals("Click here to print McLane carton label")){
+		}else if(e.getActionCommand().equals("Click here to print McLane label")){
 			System.out.println("Click here to print McLane carton label");
 			//getContentPane().removeAll();
-			McLaneCartonLabelGUI newFrame = new McLaneCartonLabelGUI();
+			McLaneLabelGUI newFrame = new McLaneLabelGUI();
 			//ingramUccLabelPanel = new IngramUccLabelGUI().createGUI();
 			//add(ingramUccLabelPanel);
 			//pack();
