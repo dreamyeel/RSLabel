@@ -4,6 +4,8 @@
  */
 package royalsovereign.label.ucc.ingram;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -36,6 +38,8 @@ public class IngramUccLabelPrintingFrame extends javax.swing.JFrame {
     public IngramUccLabelPrintingFrame() {
         super("Ingram UCC Label Printing");
         initComponents();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         setVisible(true);
         this.
         

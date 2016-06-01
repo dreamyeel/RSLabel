@@ -4,6 +4,8 @@
  */
 package royalsovereign.label.ucc.scholastic;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -38,6 +40,8 @@ public class ScholasticLabelPrintingFrame extends javax.swing.JFrame {
             Logger.getLogger(ScholasticLabelPrintingFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         initComponents();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         setVisible(true);
     }
 

@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class McLaneLabelCode {
-	boolean check;
+	boolean check, CA;
 	String output;
 	int cartonCount;
 	
@@ -19,6 +19,7 @@ public class McLaneLabelCode {
 		// TODO Auto-generated method stub
 		check = false;
 		output = "";
+		CA = false;
 		
 		try {
 			// Class. forName("net.sourceforge.jtds.jdbc.Driver");
@@ -36,7 +37,8 @@ public class McLaneLabelCode {
 							"soh.ShipToCity, soh.ShipToState, soh.ShipToZipCode, " +
 							"soh.ShipVia, soh.CustomerPONo, sod.UDF_SKU, sod.ItemCodeDesc, sod.ItemCode, " + 
 							"sod.QuantityOrdered, CASE WHEN cii.UDF_MASTER_CTN_QTY=0 THEN 1 ELSE cii.UDF_MASTER_CTN_QTY END as 'UDF_MASTER_CTN_QTY', " +
-							"CASE WHEN cii.UDF_MASTER_CTN_QTY = 0 THEN sod.QuantityOrdered ELSE CASE WHEN sod.QuantityOrdered<cii.UDF_MASTER_CTN_QTY THEN sod.QuantityOrdered ELSE sod.QuantityOrdered/cii.UDF_MASTER_CTN_QTY END END as 'TotalCartonQty'" +
+							"CASE WHEN cii.UDF_MASTER_CTN_QTY = 0 THEN sod.QuantityOrdered ELSE CASE WHEN sod.QuantityOrdered<cii.UDF_MASTER_CTN_QTY THEN sod.QuantityOrdered ELSE sod.QuantityOrdered/cii.UDF_MASTER_CTN_QTY END END as 'TotalCartonQty', " +
+							"soh.WarehouseCode " +
 							"FROM (RSI3...SO_SalesOrderHeader soh INNER JOIN RSI3...SO_SalesOrderDetail sod ON soh.SalesOrderNo = sod.SalesOrderNo)" + 
 							"INNER JOIN RSI3...CI_Item cii ON sod.ItemCode = cii.ItemCode " +
 							"Where soh.SalesOrderNo='" + soNum + "' AND sod.ItemCode NOT LIKE '/%'");			
@@ -46,6 +48,8 @@ public class McLaneLabelCode {
 				if(!check){
 					for (int i=1; i<=rs.getMetaData().getColumnCount(); i++){
 						output += rs.getMetaData().getColumnName(i)+"|";
+						if (rs.getString(16).equalsIgnoreCase("2CA"))
+							CA = true;
 					}
 					output += "\n";
 				}
@@ -59,7 +63,10 @@ public class McLaneLabelCode {
 					cartonCount++;
 				}
 				System.out.println(output);
-				generateCSV(output);
+				if (CA)
+					generateCSVCA(output);
+				else
+					generateCSV(output);
 				check = true;
 			}
 			conn.close();
@@ -77,6 +84,7 @@ public class McLaneLabelCode {
 		// TODO Auto-generated method stub
 		check = false;
 		output = "";
+		CA = false;
 		
 		try {
 			// Class. forName("net.sourceforge.jtds.jdbc.Driver");
@@ -94,7 +102,8 @@ public class McLaneLabelCode {
 							"soh.ShipToCity, soh.ShipToState, soh.ShipToZipCode, " +
 							"soh.ShipVia, soh.CustomerPONo, sod.UDF_SKU, sod.ItemCodeDesc, sod.ItemCode, " + 
 							"sod.QuantityOrdered, CASE WHEN cii.UDF_MASTER_CTN_QTY=0 THEN 1 ELSE cii.UDF_MASTER_CTN_QTY END as 'UDF_MASTER_CTN_QTY', " +
-							"CASE WHEN cii.UDF_MASTER_CTN_QTY = 0 THEN sod.QuantityOrdered ELSE CASE WHEN sod.QuantityOrdered<cii.UDF_MASTER_CTN_QTY THEN sod.QuantityOrdered ELSE sod.QuantityOrdered/cii.UDF_MASTER_CTN_QTY END END as 'TotalCartonQty'" +
+							"CASE WHEN cii.UDF_MASTER_CTN_QTY = 0 THEN sod.QuantityOrdered ELSE CASE WHEN sod.QuantityOrdered<cii.UDF_MASTER_CTN_QTY THEN sod.QuantityOrdered ELSE sod.QuantityOrdered/cii.UDF_MASTER_CTN_QTY END END as 'TotalCartonQty', " +
+							"soh.WarehouseCode " +
 							"FROM (RSI3...SO_SalesOrderHeader soh INNER JOIN RSI3...SO_SalesOrderDetail sod ON soh.SalesOrderNo = sod.SalesOrderNo)" + 
 							"INNER JOIN RSI3...CI_Item cii ON sod.ItemCode = cii.ItemCode " +
 							"Where soh.SalesOrderNo='" + soNum + "' AND sod.ItemCode NOT LIKE '/%'");			
@@ -104,6 +113,8 @@ public class McLaneLabelCode {
 				if(!check){
 					for (int i=1; i<=rs.getMetaData().getColumnCount(); i++){
 						output += rs.getMetaData().getColumnName(i)+"|";
+						if (rs.getString(16).equalsIgnoreCase("2CA"))
+							CA = true;
 					}
 					output += "\n";
 				}
@@ -111,7 +122,10 @@ public class McLaneLabelCode {
 					output += rs.getString(i)+"|";
 				}
 				output += cartonCount + "\n";
-				generateCSV(output);
+				if (CA)
+					generateCSVCA(output);
+				else
+					generateCSV(output);
 				check = true;
 			}
 			conn.close();
@@ -135,6 +149,18 @@ public class McLaneLabelCode {
 
 	private void generateCSV(String output) {
 		String fileLocation = "//10.0.0.10/Public/IT/Label_Printing/bartender_edi/McLaneCartonLabel.csv";
+		try {
+			FileWriter fw = new FileWriter(fileLocation);
+			fw.append(output);
+			fw.flush();
+			fw.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	private void generateCSVCA(String output) {
+		String fileLocation = "//10.0.0.10/Public/IT/Label_Printing/bartender_edi/McLaneCartonLabelCA.csv";
 		try {
 			FileWriter fw = new FileWriter(fileLocation);
 			fw.append(output);

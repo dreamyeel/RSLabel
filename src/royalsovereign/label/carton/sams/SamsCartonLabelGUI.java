@@ -1,5 +1,7 @@
 package royalsovereign.label.carton.sams;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,6 +19,8 @@ public class SamsCartonLabelGUI extends JFrame implements ActionListener{
 		super("Wal-Mart Label Printing");
 		code = new SamsCartonLabelCode();
 		initComponents();
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         setVisible(true);
 	}
 	
