@@ -32,7 +32,7 @@ public class SamsCartonLabelCode {
 					.executeQuery("SELECT soh.SalesOrderNo, soh.ShipToName, soh.ShipToAddress1, " +
 							"CASE WHEN soh.ShipToAddress2 is null THEN '' ELSE soh.ShipToAddress2 END as 'ShipToAddress2', " + 
 							"soh.ShipToCity, soh.ShipToState, soh.ShipToZipCode, " +
-							"soh.CustomerPONo, sod.UDF_SKU as 'CommentText', sod.ItemCodeDesc, sod.ItemCode, " + 
+							"soh.CustomerPONo, CASE WHEN sod.UDF_SKU IS NULL THEN sod.CommentText ELSE sod.UDF_SKU END as 'CommentText', sod.ItemCodeDesc, sod.ItemCode, " + 
 							"sod.QuantityOrdered, CASE WHEN cii.UDF_MASTER_CTN_QTY=0 THEN 1 ELSE cii.UDF_MASTER_CTN_QTY END as 'UDF_MASTER_CTN_QTY', " +
 							"CASE WHEN cii.UDF_MASTER_CTN_QTY = 0 THEN sod.QuantityOrdered ELSE CASE WHEN sod.QuantityOrdered<cii.UDF_MASTER_CTN_QTY THEN sod.QuantityOrdered ELSE sod.QuantityOrdered/cii.UDF_MASTER_CTN_QTY END END as 'TotalCartonQty', " +
 							"sod.WarehouseCode " + 
